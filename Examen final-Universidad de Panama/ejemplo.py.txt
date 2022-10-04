@@ -1,0 +1,202 @@
+"""Se requiere crear un programa para manejar la planilla de una compañía de transporte.  Dicha compañía cuenta con cinco choferes.  El programa debe permitir capturar los siguientes datos: nombre, horas trabajadas al día, sueldo por hora.  Se debe contemplar mecanismos para guardar los datos en dos archivos, divididos de la siguiente manera:
+1.	El primer archivo debe contener el nombre, horas trabajadas por cada día de la semana.
+2.	El segundo archivo debe contener el nombre, total de horas trabajadas a la semana, sueldo por hora y el monto a pagar semanal.
+El programa debe contar con un menú que debe contener las siguientes opciones:
+1.	Registro de las Horas Trabajadas por Dia
+2.	Calcule el sueldo semanal para cada empleado
+3.	Calcule el total que pagará la empresa.
+4.	Consultar el día con menos horas trabajadas
+5.	Consultar el empleado con más horas trabajadas
+6.	Consulta de la planilla: nombre, horas trabajadas, sueldo por hora, total de horas,trabajadas a la semana, sueldo semanal.
+
+"""
+import os
+
+nombres=[]
+horasdia=[]
+horassem=[]
+salxhora=[]
+salsemanal=[]
+opcion=0
+otro=0
+filename="horastrabajadas.txt"
+filename2="planilla.txt"
+lines=[]
+dias=['LUNES','MARTES','MIERCOLES','JUEVES','VIERNES']
+mindia=0
+posicion=0
+k=0
+
+while opcion<6:
+    print("TRANSPORTE")
+    print("1. Registrar Horas Trabajadas por Dia")
+    print("2. Consulta del Sueldo Semanal para cada Empleado")
+    print("3. Consulta del Total de la Planilla")
+    print("4. Consulta del dia con menos horas trabajadas")
+    print("5. Consulta de Empleado con mas horas trabajadas")
+    print("6. Consulta de la Planilla")
+    print("7. Salir")
+    print("Seleccione una opcion:")
+    opcion = int(input())
+
+    
+    if opcion==1:
+
+      filesize = os.path.getsize(filename)
+          
+      if filesize == 0:
+            archivo=open(filename,'w')
+            while otro<5:
+                nombres.append((input("Ingrese el Nombre del Chofer "+str(otro+1)+":")))
+                salxhora.append(float(input("Ingrese el Salario por hora del Chofer "+str(otro+1)+":")))
+                i=0
+                while i<5:
+                    horasdia.append(int(input("Ingrese las horas del dia "+dias[i]+":")))
+                    i=i+1
+                    
+                otro = otro+1
+           
+           
+            chofer1=0
+            chofer2=0
+            chofer3=0
+            chofer4=0
+            chofer5=0
+
+            for x in range(0,len(horasdia)):
+                if x>=0 and x<5:
+                     chofer1=chofer1+horasdia[x]
+
+                if x>=5 and x<10:
+                      chofer2=chofer2+horasdia[x]
+
+                if x>=10 and x<15:
+                       chofer3=chofer3+horasdia[x]
+                       
+                if x>=15 and x<20:
+                       chofer4=chofer4+horasdia[x]
+                if x>=20 and x<25:
+                       chofer5=chofer5+horasdia[x]
+
+            print(chofer1,chofer2,chofer3,chofer4,chofer5)      
+            horassem.append(chofer1)
+            horassem.append(chofer2)
+            horassem.append(chofer3)
+            horassem.append(chofer4)
+            horassem.append(chofer5)
+            
+            print(horassem)
+       
+
+            #Se escriben las dos listas en el archivo
+            for i in range(len(nombres)):
+                           
+                archivo.write(nombres[i])
+                archivo.write(';')
+                j=0          
+                while j<5:           
+                    archivo.write(str(horasdia[k]))
+                    if j<4:
+                        archivo.write(';')
+                    k=k+1 
+                    j=j+1
+                           
+                archivo.write('\n')
+
+            #Se cierra el archivo
+    
+            archivo.close()
+
+            if(os.path.isfile(filename)):
+                print("El archivo ", filename," se acaba de crear")
+            else:
+                print("ERROR..Verifique el nombre del archivo y la ruta")
+
+            archivo2=open(filename2,'w')
+            #Se escriben las dos listas en el archivo
+            for i in range(len(nombres)):
+                           
+                archivo2.write(nombres[i])
+                archivo2.write(';')
+                archivo2.write(str(horassem[i]))
+                archivo2.write(';')
+                salsemanal=horassem[i]*salxhora[i]
+                archivo2.write(str(salxhora[i]))
+                archivo2.write(';')
+                archivo2.write(str(salsemanal))
+                archivo2.write('\n')                       
+                
+
+            #Se cierra el archivo
+    
+            archivo2.close()
+
+            if(os.path.isfile(filename)):
+                print("El archivo ", filename2," se acaba de crear")
+            else:
+                print("ERROR..Verifique el nombre del archivo y la ruta")
+
+                
+      else:
+            print("El archivo contiene datos, se procedera a cargarlos...")
+
+            
+            archivo2=open(filename2,'r') 
+
+            for line in archivo2:
+                line=line.rstrip("\n")
+                lines.append(line)
+
+            archivo2.close()
+            print(lines)
+            input()
+
+
+            nombres.clear()
+            horassem.clear()
+            salxhora.clear()
+
+            
+            for i in lines:
+                cadenas=i.split(";")
+                nombres.append(cadenas[0])
+                horassem.append(int(cadenas[1]))
+                salxhora.append(float(cadenas[2]))
+                salsemanal.append(float(cadenas[3]))
+                
+       
+    elif opcion==2:
+        os.system("cls")
+        print("***************CONSULTA DE SALARIOS A PAGAR SEMANAL*********************")
+        for i in range(len(nombres)):
+             print(nombres[i],"\t", float(salsemanal[i]))
+       
+      
+        
+    elif opcion==3:
+        print("Total a Pagar en concepto de Planilla:", sum(salsemanal))
+        input("")
+    elif opcion==4:
+        os.system("cls")
+        mindia=min(horassem)
+        posicion=0
+        posicion=horassem.index(mindia)
+        print("El  dia con menos horas trabajadas fue:", dias[posicion], " con un total de ", mindia," horas")
+        input("")
+    elif opcion==5:
+        os.system("cls")
+        mayor=0
+        mayor=max(horassem)
+        posicion=horassem.index(mayor)
+        print("El empleado con mayor cantidad de horas trabajadas es:", nombres[posicion], " con ", horassem[posicion]," horas")
+        input()
+        
+    elif opcion==6:
+         for i in lines:
+              cadenas=i.split(";")
+              print(cadenas)
+    elif opcion==7:
+        exit()
+
+      
+    

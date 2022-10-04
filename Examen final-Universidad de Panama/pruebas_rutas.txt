@@ -1,0 +1,14 @@
+
+origen:
+	Y:\trabajito\versionPython\archivosPython
+destino
+	Y:\EXAMEN-COMPUTACION
+
+Escritorio
+	C:\\Users\\Angel\\Desktop
+
+
+
+
+
+

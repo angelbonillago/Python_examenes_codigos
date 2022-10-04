@@ -1,0 +1,6 @@
+1,angel,peru,tenis,2,bronce,cobre
+2,lord,peru,tenis,3,bronce,cobre,oro
+3,xavier,italia,voley,2,plata,plata
+4,benja,italia,futbol,2,bronce,bronce
+5,carlos,panama,futbol,1,plata
+6,Arauz,panama,futbol,1,oro
